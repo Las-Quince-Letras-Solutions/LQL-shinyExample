@@ -1,0 +1,14 @@
+name: shiny-webapp-example
+title: shiny-webapp-example
+username:
+account: lasquinceletras
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4225049
+bundleId: 4674706
+url: https://lasquinceletras.shinyapps.io/shiny-webapp-example/
+when: 1622751529.59201
+lastSyncTime: 1622751529.59202
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: src/01CreacionObjetos.R

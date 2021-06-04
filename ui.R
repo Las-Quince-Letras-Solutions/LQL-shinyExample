@@ -19,64 +19,89 @@ body <- mainPanel(
   width = 12,
   hr(),
   h4(icon('chevron-right'), 'Descripción de esta WebApp'),
-  p('Esta aplicación optimiza el diseño de bloques incompletos a partir de los parámetros
-    ingresados por el usuario. En caso de que éstos determinen un diseño no balanceado,
-    el algoritmo los modificará para obtener'),
+  p('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore 
+    eu fugiat nulla pariatur:'),
   p(HTML('<ul>
-            <li>el número óptimo de tareas y/o versiones del cuestionario</li>
-            <li>el mínimo tamaño de muestra requerido para significancia estadística en el análisis</li>
-            <li>el diseño de bloques incompletos balanceados que atienda a los dos puntos anteriores</li>
+            <li>excepteur sint occaecat cupidatat non proident</li>
+            <li>sunt in culpa qui officia deserunt mollit anim id est laborum</li>
           </ul>')),
   hr(),
   
   fluidRow(
-    column(width = 3, align = 'left',
-           h4(icon('chevron-right'), 'Elegir filtros'),
-           box(width = 12,
-               
-               selectInput("region", h6('Región'),
-                           choices = regiones, multiple = TRUE
-               ),
-               
-               radioButtons('variable', h6('Variable'),
-                            choiceValues = c('ventas', 'dist', 'precio'),
-                            choiceNames = c('Ventas unitarias', 'Distribución', 'Precio unitario')
-               ),
-               
-               h6('Datos'),
-               switchInput("mensuales", 
-                           value = FALSE,
-                           onLabel = "Mensuales",
-                           offLabel = "Semanales"
-               ),
-               
-               br(),
-               actionButton('go', 'Actualizar')
-           ),
-           
-    ),
-    column(width = 9,
-           tabsetPanel(type = "tabs",
-                       tabPanel("Gráficas", 
+    tabsetPanel(type = "tabs",
+                tabPanel("Gráficas", 
+                         column(width = 3, align = 'left',
                                 br(),
-                                radioButtons('mediaMovil', h6('¿Graficar media móvil?'),
-                                             choices = c('Sí', 'No'), inline = TRUE),
+                                h4(icon('chevron-right'), 'Elegir filtros'),
+                                box(width = 12,
+                                    
+                                    selectInput("region", h6('Región'),
+                                                choices = regiones, multiple = TRUE,
+                                                selected = 'Bajío'
+                                    ),
+                                    
+                                    radioButtons('variable', h6('Variable'),
+                                                 choiceValues = vars$short,
+                                                 choiceNames = vars$full
+                                    ),
+                                    
+                                    h6('Datos'),
+                                    switchInput("mensuales", 
+                                                value = FALSE,
+                                                onLabel = "Mensuales",
+                                                offLabel = "Semanales"
+                                    ),
+                                    radioButtons('mediaMovil', h6('¿Suavizar gráfica?'),
+                                                 choices = c('Sí', 'No'), inline = TRUE),
+                                    br(),
+                                    actionButton('go', 'Actualizar')
+                                ),
+                                
+                         ),
+                         column(width = 9,
                                 br(),
-                                plotOutput("plot")
-                       ),
-                       
-                       tabPanel("Modelo", 
                                 br(),
-                                tableOutput("table")
-                       )
-           )
-           # h4(icon('chevron-right'), 'Diseño'),
-           # valueBoxOutput("boxVers"),
-           # valueBoxOutput("boxTasks"),
-           # valueBoxOutput("boxMuestra"),
-           # uiOutput('clip'),
-           # fluidRow(verbatimTextOutput('prueba'))
+                                plotOutput("plot"))
+                ),
+                
+                tabPanel("Modelo", 
+                         column(width = 3, align = 'left',
+                                br(),
+                                h4(icon('chevron-right'), 'Elegir filtros'),
+                                box(width = 12,
+                                    
+                                    radioButtons('varY', h6('Variable a explicar'),
+                                                 choiceValues = vars$short,
+                                                 choiceNames = vars$full
+                                    ),
+                                    
+                                    h6('Datos'),
+                                    switchInput("mensualesMod", 
+                                                value = FALSE,
+                                                onLabel = "Mensuales",
+                                                offLabel = "Semanales"
+                                    ),
+                                    br(),
+                                    actionButton('go2', 'Actualizar')
+                                ),
+                                
+                         ),
+                         column(width = 9,
+                                br(),
+                                tableOutput("table"),
+                                br(),
+                                uiOutput('clip'))
+                )
     )
+    # h4(icon('chevron-right'), 'Diseño'),
+    # valueBoxOutput("boxVers"),
+    # valueBoxOutput("boxTasks"),
+    # valueBoxOutput("boxMuestra"),
+    # uiOutput('clip'),
+    # fluidRow(verbatimTextOutput('prueba'))
   ),
   fluidRow(br())
   

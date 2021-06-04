@@ -116,6 +116,12 @@ df %>%
 # Modelo ------------------------------------------------------------------
 
 library('caret')
+
+df %>% 
+  head(20) %>% 
+  mutate_at(c('ventas', 'dist', 'precio'), scale) 
+
+
 a <- dummyVars(~ ., data = df, fullRank = FALSE)
 b <- predict(a, df) %>% data.frame()
 
