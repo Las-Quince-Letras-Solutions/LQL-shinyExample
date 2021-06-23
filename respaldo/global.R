@@ -12,9 +12,6 @@ library('smooth')
 library('caret')
 library('rlang')
 
-library('shinyjs')
-source("modules/module_login.R") 
-
 set.seed(316)
 
 regiones <- c('Valle de México', 'Bajío', 'Sureste', 'Norte')

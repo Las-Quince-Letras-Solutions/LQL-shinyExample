@@ -1,6 +1,126 @@
 
 shinyServer(function(input, output, session) {
   
+  output$prueba <- renderText({
+    paste0("You are viewing \"", input$tabs, "\"")
+  })
+  
+  # Pedo del login
+  user_base_module_tbl <- tibble(
+    user_name = "lql.user",
+    password  = "felix-novel-janet-minus"
+  )
+  
+  validate_password_module <- callModule(
+    module   = validate_pwd,
+    id       = "module_login",
+    data     = user_base_module_tbl,
+    user_col = user_name,
+    pwd_col  = password
+  )
+  
+
+# Contenido con contraseña ------------------------------------------------
+
+  output$contenido <- renderUI({
+    req(validate_password_module())
+    
+    div(
+      width = 12,
+      hr(),
+      h4(icon('chevron-right'), 'Descripción de esta WebApp'),
+      p('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
+         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+         quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore 
+         eu fugiat nulla pariatur:'),
+      p(HTML('<ul>
+            <li>excepteur sint occaecat cupidatat non proident</li>
+            <li>sunt in culpa qui officia deserunt mollit anim id est laborum</li>
+          </ul>')),
+      # textOutput('prueba'),
+      hr(),
+      
+      fluidRow(box(width = 12,
+                   tabsetPanel(type = "tabs", id = 'tabs',
+                               tabPanel(title = "Gráficas", value = 'Tab 1',
+                                        column(width = 3, align = 'left',
+                                               br(),
+                                               h4(icon('chevron-right'), 'Elegir filtros'),
+                                               box(width = 12,
+                                                   
+                                                   selectInput("region", h6('Región'),
+                                                               choices = regiones, multiple = TRUE,
+                                                               selected = 'Bajío'
+                                                   ),
+                                                   
+                                                   radioButtons('variable', h6('Variable'),
+                                                                choiceValues = vars$short,
+                                                                choiceNames = vars$full
+                                                   ),
+                                                   
+                                                   h6('Datos'),
+                                                   switchInput("mensuales", 
+                                                               value = FALSE,
+                                                               onLabel = "Mensuales",
+                                                               offLabel = "Semanales"
+                                                   ),
+                                                   radioButtons('mediaMovil', h6('¿Suavizar gráfica?'),
+                                                                choices = c('Sí', 'No'), inline = TRUE),
+                                                   br(),
+                                                   actionButton('go', 'Actualizar')
+                                               ),
+                                               
+                                        ),
+                                        column(width = 9,
+                                               br(),
+                                               br(),
+                                               plotOutput("plot"))
+                               ),
+                               
+                               tabPanel(title = "Modelo", value = 'Tab 2', 
+                                        column(width = 3, align = 'left',
+                                               br(),
+                                               h4(icon('chevron-right'), 'Elegir filtros'),
+                                               box(width = 12,
+                                                   
+                                                   radioButtons('varY', h6('Variable a explicar'),
+                                                                choiceValues = vars$short,
+                                                                choiceNames = vars$full
+                                                   ),
+                                                   
+                                                   h6('Datos'),
+                                                   switchInput("mensualesMod", 
+                                                               value = FALSE,
+                                                               onLabel = "Mensuales",
+                                                               offLabel = "Semanales"
+                                                   ),
+                                                   br(),
+                                                   actionButton('go2', 'Actualizar')
+                                               ),
+                                               
+                                        ),
+                                        column(width = 9,
+                                               br(),
+                                               tableOutput("table"),
+                                               br(),
+                                               uiOutput('clip'))
+                               )
+                   )
+                   # h4(icon('chevron-right'), 'Diseño'),
+                   # valueBoxOutput("boxVers"),
+                   # valueBoxOutput("boxTasks"),
+                   # valueBoxOutput("boxMuestra"),
+                   # uiOutput('clip'),
+                   # fluidRow(verbatimTextOutput('prueba'))
+      )),
+      fluidRow(br())
+      
+      
+    )
+    
+  })
+  
   
   # Pestaña 1 ---------------------------------------------------------------
   
