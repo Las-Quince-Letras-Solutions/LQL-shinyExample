@@ -1,0 +1,53 @@
+/* Los boxes de shiny siempre traen un contorno y arriba una linea gruesa.
+  No los queremos */
+.box {
+  position: relative;
+  border-radius: 3px;
+  background: #fff;
+  border-top: 3px solid #fff;
+  margin-bottom: 20px;
+  width: 100%;
+  box-shadow: 0 0px 0px rgb(0 0 0 / 10%);
+}
+
+.box-body {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  padding: 0px;
+}
+/* Los valueboxes de shinydashboard solo permiten ciertos colores. 
+   Agregamos los de LQL*/
+.bg-purple {
+  background-color: #172744!important;
+}
+
+.bg-blue {
+  background-color: #DF2A35!important;
+}
+
+.bg-yellow {
+  background-color: #666665!important;
+ }
+ 
+/* Formato del slider */
+/* La línea */
+.irs--shiny .irs-bar {
+    top: 25px;
+    height: 8px;
+    border-top: 1px solid #172744;
+    border-bottom: 1px solid #172744;
+    background: #172744;
+}
+
+/* El numerito */
+.irs--shiny .irs-from, .irs--shiny .irs-to, .irs--shiny .irs-single {
+    color: #fff;
+    text-shadow: none;
+    padding: 1px 3px;
+    background-color: #172744;
+    border-radius: 3px;
+    font-size: 11px;
+    line-height: 1.333;
+}

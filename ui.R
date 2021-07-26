@@ -9,20 +9,17 @@ header <- titlePanel(
 # Body --------------------------------------------------------------------
 
 body <- mainPanel(
-  column(
     width = 12,
-    login_ui(id = "module_login", title = "Please login"),
+  # column(
+    # login_ui(id = "module_login", title = "Please login"),
     
     uiOutput(outputId = "contenido")
-  )
+  # )
 )
 
 # Union -------------------------------------------------------------------
 
 fluidPage(
-  tags$style(boxCSS),
-  tags$style(valueBoxCSS),
-  tags$style(boxBodyCSS),
   
   setBackgroundColor("white"),
   useShinydashboard(),
@@ -30,7 +27,9 @@ fluidPage(
   
   # Título del tab en el explorador
   tags$head(HTML("<title>Diseño de bloques incompletos</title> <link rel='icon' type='image/gif/png' href='imagotipo_claret.png'>"))  ,
+
   theme = shinytheme("yeti"),
+  tags$link(rel = "stylesheet", type = "text/css", href = "estiloLQL.css"),
   header,
   body
 )

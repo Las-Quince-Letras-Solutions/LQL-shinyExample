@@ -1,15 +1,13 @@
 
+
 shinyServer(function(input, output, session) {
-  
   output$prueba <- renderText({
     paste0("You are viewing \"", input$tabs, "\"")
   })
   
   # Pedo del login
-  user_base_module_tbl <- tibble(
-    user_name = "lql.user",
-    password  = "felix-novel-janet-minus"
-  )
+  user_base_module_tbl <- tibble(user_name = "lql",
+                                 password  = "pw")
   
   validate_password_module <- callModule(
     module   = validate_pwd,
@@ -19,101 +17,80 @@ shinyServer(function(input, output, session) {
     pwd_col  = password
   )
   
-
-# Contenido con contraseña ------------------------------------------------
-
+  
+  # Contenido con contraseña ------------------------------------------------
+  
   output$contenido <- renderUI({
-    req(validate_password_module())
+    # req(validate_password_module())
     
     div(
-      width = 12,
       hr(),
       h4(icon('chevron-right'), 'Descripción de esta WebApp'),
-      p('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
+      p(
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore 
-         eu fugiat nulla pariatur:'),
-      p(HTML('<ul>
+         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+         eu fugiat nulla pariatur:'
+      ),
+      p(
+        HTML(
+          '<ul>
             <li>excepteur sint occaecat cupidatat non proident</li>
             <li>sunt in culpa qui officia deserunt mollit anim id est laborum</li>
-          </ul>')),
-      # textOutput('prueba'),
+          </ul>'
+        )
+      ),
       hr(),
       
-      fluidRow(box(width = 12,
-                   tabsetPanel(type = "tabs", id = 'tabs',
-                               tabPanel(title = "Gráficas", value = 'Tab 1',
-                                        column(width = 3, align = 'left',
-                                               br(),
-                                               h4(icon('chevron-right'), 'Elegir filtros'),
-                                               box(width = 12,
-                                                   
-                                                   selectInput("region", h6('Región'),
-                                                               choices = regiones, multiple = TRUE,
-                                                               selected = 'Bajío'
-                                                   ),
-                                                   
-                                                   radioButtons('variable', h6('Variable'),
-                                                                choiceValues = vars$short,
-                                                                choiceNames = vars$full
-                                                   ),
-                                                   
-                                                   h6('Datos'),
-                                                   switchInput("mensuales", 
-                                                               value = FALSE,
-                                                               onLabel = "Mensuales",
-                                                               offLabel = "Semanales"
-                                                   ),
-                                                   radioButtons('mediaMovil', h6('¿Suavizar gráfica?'),
-                                                                choices = c('Sí', 'No'), inline = TRUE),
-                                                   br(),
-                                                   actionButton('go', 'Actualizar')
-                                               ),
-                                               
-                                        ),
-                                        column(width = 9,
-                                               br(),
-                                               br(),
-                                               plotOutput("plot"))
-                               ),
-                               
-                               tabPanel(title = "Modelo", value = 'Tab 2', 
-                                        column(width = 3, align = 'left',
-                                               br(),
-                                               h4(icon('chevron-right'), 'Elegir filtros'),
-                                               box(width = 12,
-                                                   
-                                                   radioButtons('varY', h6('Variable a explicar'),
-                                                                choiceValues = vars$short,
-                                                                choiceNames = vars$full
-                                                   ),
-                                                   
-                                                   h6('Datos'),
-                                                   switchInput("mensualesMod", 
-                                                               value = FALSE,
-                                                               onLabel = "Mensuales",
-                                                               offLabel = "Semanales"
-                                                   ),
-                                                   br(),
-                                                   actionButton('go2', 'Actualizar')
-                                               ),
-                                               
-                                        ),
-                                        column(width = 9,
-                                               br(),
-                                               tableOutput("table"),
-                                               br(),
-                                               uiOutput('clip'))
-                               )
+      fluidRow(column(width = 3,
+                      uiOutput('sidePanel')),
+               column(
+                 width = 9,
+                 tabsetPanel(
+                   type = "tabs",
+                   id = 'tabs',
+                   tabPanel(
+                     title = "Gráficas",
+                     value = 'Tab 1',
+                     column(width = 9,
+                            br(),
+                            br(),
+                            plotOutput("plot"))
+                   ),
+                   
+                   tabPanel(
+                     title = "Modelo",
+                     value = 'Tab 2',
+                     column(width = 9,
+                            br(),
+                            tableOutput("table"),
+                            br(),
+                            uiOutput('clip')),
+                   ),
+                   
+                   tabPanel(
+                     title = "Misc.",
+                     value = 'Tab 3',
+                     column(
+                       width = 9,
+                       br(),
+                       p('Otras cosas que considero que vale la pena ver:'),
+                       box(width = 12,
+                           sliderInput('slider',
+                                       h6('Elegir un número:'),
+                                       min = 0,
+                                       max = 100,
+                                       step = 5,
+                                       value = 50)),
+                       br(),
+                       valueBoxOutput("boxVers"),
+                       valueBoxOutput("boxTasks"),
+                       valueBoxOutput("boxMuestra"),
+                     ),
                    )
-                   # h4(icon('chevron-right'), 'Diseño'),
-                   # valueBoxOutput("boxVers"),
-                   # valueBoxOutput("boxTasks"),
-                   # valueBoxOutput("boxMuestra"),
-                   # uiOutput('clip'),
-                   # fluidRow(verbatimTextOutput('prueba'))
-      )),
+                 )
+               )),
       fluidRow(br())
       
       
@@ -122,24 +99,100 @@ shinyServer(function(input, output, session) {
   })
   
   
+  output$sidePanel <- renderUI({
+    if (input$tabs == 'Tab 1') {
+      div(
+        width = 12,
+        
+        br(),
+        h4(icon('chevron-right'), 'Parámetros'),
+        box(
+          width = 12,
+          
+          selectInput(
+            "region",
+            h6('Región'),
+            choices = regiones,
+            multiple = TRUE,
+            selected = 'Bajío'
+          ),
+          
+          radioButtons(
+            'variable',
+            h6('Variable'),
+            choiceValues = vars$short,
+            choiceNames = vars$full
+          ),
+          
+          h6('Datos'),
+          switchInput(
+            "mensuales",
+            value = FALSE,
+            onLabel = "Mensuales",
+            offLabel = "Semanales"
+          ),
+          radioButtons(
+            'mediaMovil',
+            h6('¿Suavizar gráfica?'),
+            choices = c('Sí', 'No'),
+            inline = TRUE
+          ),
+          br(),
+          actionButton('go', 'Actualizar')
+        )
+      )
+    } else if (input$tabs == 'Tab 2') {
+      div(
+        br(),
+        h4(icon('chevron-right'), 'Parámetros'),
+        box(
+          width = 12,
+          
+          radioButtons(
+            'varY',
+            h6('Variable a explicar'),
+            choiceValues = vars$short,
+            choiceNames = vars$full
+          ),
+          
+          h6('Datos'),
+          switchInput(
+            "mensualesMod",
+            value = FALSE,
+            onLabel = "Mensuales",
+            offLabel = "Semanales"
+          ),
+          br(),
+          actionButton('go2', 'Actualizar')
+        ),
+      )
+    } else {
+      div(br(),
+          h4(icon('chevron-right'), 'Parámetros'),
+          p('No aplica'))
+    }
+    
+  })
+  
   # Pestaña 1 ---------------------------------------------------------------
   
   datos <- eventReactive(input$go, {
-    
     data <- df
     
-    if(input$mensuales) {
-      data <- data %>% 
-        mutate(fecha = lubridate::floor_date(fecha, 'month')) %>% 
-        group_by(fecha, region) %>% 
-        summarise(ventas = sum(ventas),
-                  dist = max(dist),
-                  precio = mean(precio)) %>% 
+    if (input$mensuales) {
+      data <- data %>%
+        mutate(fecha = lubridate::floor_date(fecha, 'month')) %>%
+        group_by(fecha, region) %>%
+        summarise(
+          ventas = sum(ventas),
+          dist = max(dist),
+          precio = mean(precio)
+        ) %>%
         ungroup()
     }
     
-    data <- data %>% 
-      filter(region %in% input$region) %>% 
+    data <- data %>%
+      filter(region %in% input$region) %>%
       select(fecha, region, input$variable)
     
     data
@@ -147,36 +200,39 @@ shinyServer(function(input, output, session) {
   
   
   plot1 <- eventReactive(input$go, {
-    
     var <- parse_expr(input$variable)
     varName <- vars %>%
       filter(short == input$variable) %>%
       pull(full)
     
-    if(input$mediaMovil == 'No') {
-      
-      datos() %>% 
+    if (input$mediaMovil == 'No') {
+      datos() %>%
         ggplot() +
         geom_line(aes(fecha, !!var, color = region), size = 0.75) +
         scale_y_LQL('comma', 1) +
         scale_color_manual(values = c('#172744', '#DF2A35', '#666665', '#12A04B')) +
-        labsLQL(title = varName, 
+        labsLQL(title = varName,
                 y = input$variable) +
         themeLQL() +
         theme(axis.title.x = element_blank(),
               legend.title = element_blank())
       
     } else {
-      datos() %>% 
+      datos() %>%
         ggplot() +
-        geom_line(aes(fecha, !!var, color = region), size = 0.25, linetype = 1) +
-        geom_smooth(aes(fecha, !!var, color = region), 
-                    size = 0.75,
-                    linetype = 1,
-                    se = FALSE, method = 'gam') +
+        geom_line(aes(fecha, !!var, color = region),
+                  size = 0.25,
+                  linetype = 1) +
+        geom_smooth(
+          aes(fecha, !!var, color = region),
+          size = 0.75,
+          linetype = 1,
+          se = FALSE,
+          method = 'gam'
+        ) +
         scale_y_LQL('comma', 1) +
         scale_color_manual(values = c('#172744', '#DF2A35', '#666665', '#12A04B')) +
-        labsLQL(title = varName, 
+        labsLQL(title = varName,
                 y = input$variable) +
         themeLQL() +
         theme(axis.title.x = element_blank(),
@@ -186,32 +242,34 @@ shinyServer(function(input, output, session) {
   })
   
   
-  output$plot <- renderPlot({ plot1() })
+  output$plot <- renderPlot({
+    plot1()
+  })
   
   
   # Pestaña 2 ---------------------------------------------------------------
   
   datosMod <- eventReactive(input$go2, {
-    
     data <- df
     
-    if(input$mensualesMod) {
-      data <- data %>% 
-        mutate(fecha = lubridate::floor_date(fecha, 'month')) %>% 
-        group_by(fecha, region) %>% 
-        summarise(ventas = sum(ventas),
-                  dist = max(dist),
-                  precio = mean(precio)) %>% 
+    if (input$mensualesMod) {
+      data <- data %>%
+        mutate(fecha = lubridate::floor_date(fecha, 'month')) %>%
+        group_by(fecha, region) %>%
+        summarise(
+          ventas = sum(ventas),
+          dist = max(dist),
+          precio = mean(precio)
+        ) %>%
         ungroup()
     }
     
-    data %>% 
+    data %>%
       mutate_at(c('ventas', 'dist', 'precio'), scale)
-  })  
+  })
   
   modelo <- eventReactive(input$go2, {
-    
-    a <- dummyVars(~ ., data = datosMod(), fullRank = FALSE)
+    a <- dummyVars( ~ ., data = datosMod(), fullRank = FALSE)
     b <- predict(a, datosMod()) %>% data.frame()
     
     mod.lm <- lm(parse_expr(paste0(input$varY, '~ .')),
@@ -219,19 +277,19 @@ shinyServer(function(input, output, session) {
     
     resumen <- data.frame(broom::tidy(mod.lm))
     
-    resumen %>% 
-      mutate(significancia = ifelse(p.value < 0.05, '*', '')) %>% 
-      na.omit() %>% 
+    resumen %>%
+      mutate(significancia = ifelse(p.value < 0.05, '*', '')) %>%
+      na.omit() %>%
       mutate(term = str_remove(term, 'region.'))
     
   })
   
-  output$table <- renderTable({ 
+  output$table <- renderTable({
     modelo()
   })
   
   output$clip <- renderUI({
-    if(input$go2 > 0) {
+    if (input$go2 > 0) {
       downloadButton('descargar', 'Descargar resultados')
     }
   })
@@ -244,5 +302,23 @@ shinyServer(function(input, output, session) {
       write.csv(modelo(), file, row.names = FALSE)
     }
   )
+  
+  
+  # Pestaña 3 ---------------------------------------------------------------
+  
+  output$boxVers <- renderValueBox({
+    valueBox(25, "Versiones del cuestionario",
+             color = "purple")
+  })
+  
+  output$boxTasks <- renderValueBox({
+    valueBox(44, "Número de tareas",
+             color = "blue")
+  })
+  
+  output$boxMuestra <- renderValueBox({
+    valueBox(28, "Personas en la muestra",
+             color = "yellow")
+  })
   
 })

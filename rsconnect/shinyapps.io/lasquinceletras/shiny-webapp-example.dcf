@@ -5,10 +5,10 @@ account: lasquinceletras
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 4225049
-bundleId: 4674706
+bundleId: 4740213
 url: https://lasquinceletras.shinyapps.io/shiny-webapp-example/
-when: 1622751529.59201
-lastSyncTime: 1622751529.59202
+when: 1624296422.44732
+lastSyncTime: 1624296422.44733
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: src/01CreacionObjetos.R
+ignoredFiles: respaldo/global.R|respaldo/server.R|respaldo/ui.R|src/01CreacionObjetos.R
