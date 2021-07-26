@@ -9,9 +9,9 @@ header <- titlePanel(
 # Body --------------------------------------------------------------------
 
 body <- mainPanel(
-    width = 12,
   # column(
-    # login_ui(id = "module_login", title = "Please login"),
+    width = 12,
+    login_ui(id = "module_login", title = "Please login"),
     
     uiOutput(outputId = "contenido")
   # )
