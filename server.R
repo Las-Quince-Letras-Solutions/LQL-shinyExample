@@ -6,7 +6,7 @@ shinyServer(function(input, output, session) {
   })
   
   # Pedo del login
-  user_base_module_tbl <- tibble(user_name = "lql",
+  user_base_module_tbl <- tibble(user_name = "user",
                                  password  = "pw")
   
   validate_password_module <- callModule(
@@ -79,7 +79,7 @@ shinyServer(function(input, output, session) {
                        box(width = 12,
                            sliderInput('slider',
                                        h6('Elegir un número:'),
-                                       min = 0,
+                                       min = 1,
                                        max = 100,
                                        step = 5,
                                        value = 50)),
@@ -307,17 +307,17 @@ shinyServer(function(input, output, session) {
   # Pestaña 3 ---------------------------------------------------------------
   
   output$boxVers <- renderValueBox({
-    valueBox(25, "Versiones del cuestionario",
+    valueBox(round(rnorm(1, 20 + input$slider, sqrt(input$slider))), "Versiones del cuestionario",
              color = "purple")
   })
   
   output$boxTasks <- renderValueBox({
-    valueBox(44, "Número de tareas",
+    valueBox(round(rnorm(1, 20 + input$slider, sqrt(input$slider/2))), "Número de tareas",
              color = "blue")
   })
   
   output$boxMuestra <- renderValueBox({
-    valueBox(28, "Personas en la muestra",
+    valueBox(round(rnorm(1, 120 + input$slider, sqrt(2*input$slider))), "Personas en la muestra",
              color = "yellow")
   })
   

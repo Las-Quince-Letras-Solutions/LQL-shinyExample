@@ -10,25 +10,25 @@ login_ui <- function(id, title) {
       class = "well",
       
       h4(class = "text-center", title),
-      p(class = "text-center", tags$small("Second approach login form")),
+      p(class = "text-center", tags$small("Ingrese el usuario y contraseña provistos por LQL:")),
       
       textInput(
         inputId     = ns("ti_user_name_module"),
-        label       = tagList(icon("user"), "User Name"),
-        placeholder = "Enter user name"
+        label       = tagList(icon("user"), "Usuario"),
+        placeholder = ""
       ),
       
       passwordInput(
         inputId     = ns("ti_password_module"), 
-        label       = tagList(icon("unlock-alt"), "Password"), 
-        placeholder = "Enter password"
+        label       = tagList(icon("unlock-alt"), "Contraseña"), 
+        placeholder = ""
       ), 
       
       div(
         class = "text-center",
         actionButton(
           inputId = ns("ab_login_button_module"), 
-          label   = "Log in",
+          label   = "Iniciar sesión",
           class   = "btn-primary"
         )
       )
