@@ -11,7 +11,7 @@ header <- titlePanel(
 body <- mainPanel(
   # column(
     width = 12,
-    login_ui(id = "module_login", title = "Inicio de sesión"),
+    # login_ui(id = "module_login", title = "Inicio de sesión"),
     
     uiOutput(outputId = "contenido")
   # )

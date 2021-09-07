@@ -21,7 +21,7 @@ shinyServer(function(input, output, session) {
   # Contenido con contraseña ------------------------------------------------
   
   output$contenido <- renderUI({
-    req(validate_password_module())
+    # req(validate_password_module())
     
     div(
       hr(),
