@@ -3,13 +3,16 @@
 library('shiny')
 library('shinydashboard')
 library('shinyWidgets')
-library("shinyMatrix")
-library('shinythemes')
+# library("shinyMatrix")
+# library('shinythemes')
 
 
-library('tidyverse')
+# library('tidyverse')
+library('dplyr')
+library('tidyr')
+library('ggplot2')
 library('smooth')
-library('caret')
+# library('caret')
 library('rlang')
 
 library('shinyjs')
