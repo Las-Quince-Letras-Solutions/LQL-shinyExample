@@ -120,8 +120,8 @@ shinyServer(function(input, output, session) {
           radioButtons(
             'variable',
             h6('Variable'),
-            choiceValues = vars$short,
-            choiceNames = vars$full
+            choiceValues = c('ventas', 'dist', 'precio'),
+            choiceNames = c('Ventas unitarias', 'Distribución', 'Precio unitario')
           ),
           
           h6('Datos'),
@@ -151,8 +151,8 @@ shinyServer(function(input, output, session) {
           radioButtons(
             'varY',
             h6('Variable a explicar'),
-            choiceValues = vars$short,
-            choiceNames = vars$full
+            choiceValues = c('ventas', 'dist', 'precio'),
+            choiceNames = c('Ventas unitarias', 'Distribución', 'Precio unitario')
           ),
           
           h6('Datos'),
