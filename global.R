@@ -10,7 +10,7 @@ library('stringr')
 library('ggplot2')
 library('caret')
 library('rlang')
-
+library('polished')
 
 # library("shinyMatrix")
 # library('tidyverse')
@@ -173,3 +173,6 @@ scale_y_LQL <- function(formato = 'comma', precision = 1) {
                               labels = eval(rlang::parse_expr(paste0('scales::', formato, '_format(', precision, ')')))
   )
 }
+
+global_sessions_config(app_name = 'prueba', 
+                       api_key = 'Xrb1ozTD6lh5MrimYOZXorOmieoAs8lcSg')

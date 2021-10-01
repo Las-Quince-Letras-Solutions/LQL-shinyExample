@@ -1,6 +1,7 @@
 
 
-shinyServer(function(input, output, session) {
+# shinyServer(function(input, output, session) {
+server <- function(input, output, session) {
   output$prueba <- renderText({
     paste0("You are viewing \"", input$tabs, "\"")
   })
@@ -321,4 +322,6 @@ shinyServer(function(input, output, session) {
              color = "yellow")
   })
   
-})
+}
+
+secure_server(server = server)
